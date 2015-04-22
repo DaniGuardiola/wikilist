@@ -1,5 +1,12 @@
 "use strict";
 var paperkit = new Paperkit();
+
+var Wikilist = {};
+Wikilist.openRandomArticle = function() {
+    chrome.tabs.create({
+        "url": "http://en.wikipedia.org/wiki/Special:Random"
+    });
+};
 (function() {
     window.addEventListener("load", function() {
         init();
@@ -13,11 +20,7 @@ var paperkit = new Paperkit();
             var articles = storage.articles ? storage.articles : [];
             if (articles.length < 1) {
                 tile = document.createElement("md-tile");
-                tile.addEventListener("click", function() {
-                    chrome.tabs.create({
-                        "url": "http://en.wikipedia.org/wiki/Special:Random"
-                    });
-                });
+                tile.addEventListener("click", Wikilist.openRandomArticle);
 
                 icon = document.createElement("md-icon");
                 icon.setAttribute("md-image", "icon: dice");
