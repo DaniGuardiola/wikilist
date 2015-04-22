@@ -1,0 +1,19 @@
+{
+  "name": "wikilist",
+  "version": "0.0.0",
+  "authors": [
+    "DaniGuardiola <contacto@daniguardiola.me>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "paperkit-min": "~0.1.0",
+    "paperkit": "~0.1.0"
+  }
+}
