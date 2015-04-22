@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <title>Wikilist</title>
     <link rel="stylesheet" href="bower_components/paperkit/paperkit.css">
+    <link rel="stylesheet" href="css/popup.css">
     <script src="bower_components/paperkit/paperkit.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/popup.js"></script>
 </head>
 
 <body md-body style="width: 400px;">
@@ -20,11 +21,7 @@
     </md-toolbar>
     <md-sidemenu></md-sidemenu>
     <md-content>
-    	<md-list>
-    		<md-tile>
-    			<md-icon md-image="icon: wikipedia"></md-icon>
-    			<md-text>Logic (philosophy)</md-text>
-    		</md-tile>
+    	<md-list id="article-list">
     	</md-list>
     </md-content>
 </body>

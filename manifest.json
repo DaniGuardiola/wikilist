@@ -1,21 +1,25 @@
 {
     "manifest_version": 2,
-    "name": "God to FSM",
-    "description": "Translate religious texts to actually reveal The Truth",
+    "name": "Wikilist - Wikipedia list",
+    "description": "A place for your Wikipedia readings",
     "version": "1.0",
     "browser_action": {
-        "default_icon": "icon.png",
+        "default_icon": "img/icon.png",
         "default_popup": "popup.html",
-        "default_title": "God to FSM"
+        "default_title": "Wikilist - Wikipedia list"
     },
     "background": {
-        "scripts": ["background.js"],
+        "scripts": ["js/background.js"],
         "persistent": false
     },
     "permissions": [
-        "storage",
-        "tabs",
-        "http://*/",
-        "https://*/"
-    ]
+        "storage"
+    ],
+    "content_scripts": [{
+        "matches": ["http://*.wikipedia.org/*", "http://*.wikiwand.com/*",
+            "https://*.wikipedia.org/*", "https://*.wikiwand.com/*"
+        ],
+        "css": ["css/content.css"],
+        "js": ["js/content.js"]
+    }]
 }
