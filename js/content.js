@@ -20,7 +20,7 @@
         document.body.appendChild(button);
 
         // Initial check
-        chrome.storage.sync.get("articles", function(storage) {
+        chrome.storage.local.get("articles", function(storage) {
             var articles = storage.articles ? storage.articles : [];
             var articleInfo = getArticleInfo();
             if (findArticle(articles, articleInfo)) {
@@ -72,7 +72,7 @@
     }
 
     function addArticle() {
-        chrome.storage.sync.get("articles", function(storage) {
+        chrome.storage.local.get("articles", function(storage) {
             var articles = storage.articles ? storage.articles : [];
             var articleInfo = getArticleInfo();
             if (!findArticle(articles, articleInfo)) {
@@ -80,9 +80,10 @@
                     "slug": articleInfo.slug,
                     "name": articleInfo.name,
                     "lang": articleInfo.lang,
-                    "from": articleInfo.from
+                    "from": articleInfo.from,
+                    "offline": false
                 });
-                chrome.storage.sync.set({
+                chrome.storage.local.set({
                     "articles": articles
                 }, addArticleSuccess);
             } else {

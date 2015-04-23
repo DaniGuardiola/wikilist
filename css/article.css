@@ -1,45 +1,114 @@
 /* Cleanup */
 
-#read-article>md-content .mw-editsection {
-    display: none;
+#read-article>md-content .mw-editsection,
+#read-article>md-content .noprint,
+#read-article>md-content .metadata,
+#read-article>md-content .tocnumber,
+#read-article>md-content .mw-cite-backlink,
+#read-article>md-content .reference-accessdate,
+#read-article>md-content .navbox-title>.plainlinks.hlist.navbar.mini {
+  display: none;
+}
+
+#read-article>md-content>h2 {
+  clear: both;
+}
+
+#read-article>md-toolbar .lang {
+  color: #B2EBF2;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+#read-article>md-toolbar>md-row>md-text {
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#read-article>md-content #toc {
+  clear: both;
+}
+
+#read-article>md-content #toc>ul>li {
+  list-style-type: decimal;
+}
+
+#read-article>md-content #toc>#toctitle>h2 {
+  margin: 0;
+}
+
+#read-article>md-content .references {
+  list-style-type: decimal;
+}
+
+#read-article>md-content .references>li {
+  margin: 8px 0;
+  padding: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+}
+
+#read-article>md-content .navbox {
+  margin: 16px 0;
+  width: 100%;
 }
 
 #read-article>md-content {
-    padding: 0 16px;
+  padding: 8px 16px;
 }
 
-#read-article>md-content>p {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
+#read-article>md-content>p,
+#read-article>md-content .toctext {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 #read-article>md-content a {
-    color: #0097A7;
-    text-decoration: none;
+  color: #0097A7;
+  text-decoration: none;
+}
+
+#read-article>md-content .thumb,
+#read-article>md-content .infobox,
+#read-article>md-content #toc {
+  padding: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+}
+
+#read-article>md-content .navbox {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
 }
 
 #read-article>md-content .thumb.tright,
 #read-article>md-content .infobox {
-    float: right;
+  margin: 16px 0 8px 8px;
+  clear: both;
+  float: right;
 }
 
 #read-article>md-content .thumb.tleft {
-    float: left;
+  margin: 16px 8px 8px 0;
+  clear: both;
+  float: left;
 }
 
 #read-article>md-content .mw-headline,
 #read-article>md-content #toctitle>h2 {
-    font-size: 34px;
-    font-weight: 400;
-    line-height: 40px;
-    letter-spacing: -.01em;
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 40px;
+  letter-spacing: -.01em;
 }
 
-#read-article>md-content .VT.rellink>span {
-    font-size: 12px;
-    font-weight: 400;
-    white-space: nowrap;
-    line-height: 20px;
-    letter-spacing: .011em;
+#read-article>md-content .VT.rellink>span,
+#read-article>md-content .hatnote,
+#read-article>md-content li,
+#read-article>md-content .references>li>.reference-text,
+#read-article>md-content .thumbcaption {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: .011em;
 }

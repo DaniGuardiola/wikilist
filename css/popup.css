@@ -45,3 +45,8 @@ body.read {
     overflow-x: hidden;
     flex: 1;
 }
+
+html, body {
+	height: auto;
+	min-height: initial;
+}
