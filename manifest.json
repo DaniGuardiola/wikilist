@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Wikilist - Wikipedia list",
     "description": "A place for your Wikipedia readings",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "browser_action": {
         "default_icon": "img/icon.png",
         "default_popup": "popup.html",

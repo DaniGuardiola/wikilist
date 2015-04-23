@@ -6,12 +6,17 @@
 #read-article>md-content .tocnumber,
 #read-article>md-content .mw-cite-backlink,
 #read-article>md-content .reference-accessdate,
+#read-article>md-content #coordinates,
 #read-article>md-content .navbox-title>.plainlinks.hlist.navbar.mini {
   display: none;
 }
 
 #read-article>md-content>h2 {
   clear: both;
+}
+
+#read-article>md-content span {
+  white-space: initial;
 }
 
 #read-article>md-toolbar .lang {

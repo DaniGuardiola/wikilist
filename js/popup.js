@@ -154,6 +154,7 @@ Wikilist.openRandomArticle = function() {
 
       toolbar = document.createElement("md-toolbar");
       toolbar.setAttribute("md-color", "cyan");
+      toolbar.setAttribute("md-shadow", "shadow-1");
 
       row = document.createElement("md-row");
       row.setAttribute("md-type", "standard");
