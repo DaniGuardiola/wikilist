@@ -1,3 +1,47 @@
 #article-list>md-tile {
-	cursor: pointer;
+    cursor: pointer;
+}
+
+#article-list>md-tile:not(:hover)>md-icon-button.hidden {
+    display: none;
+}
+
+md-list>md-tile>md-text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+body {
+	width: 400px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+body.read {
+    min-height: 600px;
+    min-width: 600px;
+}
+
+@media all and (min-height: 400px) {
+    body {
+    	min-height: 500px;
+        height: 100%;
+    }
+    body>md-content {
+        flex: 1;
+        overflow: auto;
+    }
+}
+
+#md-morph>md-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#md-morph>md-body>md-content {
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
 }

@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Wikilist</title>
-    <link rel="stylesheet" href="bower_components/paperkit/paperkit.css">
+    <link rel="stylesheet" href="bower_components/paperkit-min/paperkit.css">
     <link rel="stylesheet" href="css/popup.css">
-    <script src="bower_components/paperkit/paperkit.js"></script>
+    <script src="bower_components/paperkit-min/paperkit.js"></script>
     <script src="js/popup.js"></script>
 </head>
 
-<body md-body style="width: 400px;">
+<body md-body>
     <md-toolbar md-color="cyan" md-shadow="shadow-1">
         <md-row md-type="standard">
             <md-icon-button md-action="custom: paperkit.sidemenu.open" md-image="icon: menu"></md-icon-button>
@@ -20,11 +20,11 @@
             <md-icon-button md-image="icon: heart" md-fill="red"></md-icon-button>
         </md-row>
     </md-toolbar>
-    <md-sidemenu></md-sidemenu>
     <md-content>
     	<md-list id="article-list">
     	</md-list>
     </md-content>
+    <md-sidemenu></md-sidemenu>
 </body>
 
 </html>

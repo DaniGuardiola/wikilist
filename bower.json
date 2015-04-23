@@ -13,7 +13,6 @@
     "tests"
   ],
   "devDependencies": {
-    "paperkit-min": "~0.1.0",
-    "paperkit": "~0.1.0"
+    "paperkit-min": "~0.1.0"
   }
 }

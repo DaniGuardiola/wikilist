@@ -7,6 +7,7 @@ Wikilist.openRandomArticle = function() {
         "url": "http://en.wikipedia.org/wiki/Special:Random"
     });
 };
+
 (function() {
     window.addEventListener("load", function() {
         init();
@@ -14,7 +15,7 @@ Wikilist.openRandomArticle = function() {
 
     function init() {
         var articleList = document.getElementById("article-list");
-        var tile, icon, name;
+        var tile, icon, name, read;
 
         chrome.storage.sync.get("articles", function(storage) {
             var articles = storage.articles ? storage.articles : [];
@@ -45,8 +46,14 @@ Wikilist.openRandomArticle = function() {
                     name = document.createElement("md-text");
                     name.textContent = articles[i].name;
 
+                    read = document.createElement("md-icon-button");
+                    read.setAttribute("md-image", "icon: fullscreen");
+                    read.classList.add("hidden");
+                    read.addEventListener("click", readArticleButtonClick);
+
                     tile.appendChild(icon);
                     tile.appendChild(name);
+                    tile.appendChild(read);
 
                     articleList.appendChild(tile);
                 }
@@ -56,6 +63,7 @@ Wikilist.openRandomArticle = function() {
     }
 
     function articleTileClick(event) {
+        event.stopPropagation();
         var tile = event.currentTarget;
         openArticle({
             "lang": tile.getAttribute("data-lang"),
@@ -68,5 +76,75 @@ Wikilist.openRandomArticle = function() {
         chrome.tabs.create({
             "url": url
         });
+    }
+
+    function readArticleButtonClick(event) {
+        event.stopPropagation();
+        var button = event.currentTarget;
+        var tile = button.parentNode;
+        var slug = tile.getAttribute("data-slug");
+        var lang = tile.getAttribute("data-lang");
+        var url = "http://" + lang + ".wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&titles=" + slug + "&format=json&rvparse";
+
+        document.body.classList.add("read");
+
+        transition.morph(tile, "full", function(container) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+            xhr.addEventListener("load", function() {
+                var response = JSON.parse(xhr.responseText);
+                var pages = response.query.pages;
+                var titleText, page, body, toolbar, row, closeButton, title, content;
+
+                for (var prop in pages) {
+                    if (!pages[prop].revisions) {
+                        break;
+                    }
+                    page = pages[prop].revisions[0]["*"];
+                    titleText = pages[prop].title;
+                    page = page.replace(/\"\/\/upload\.wikimedia\.org/g, "\"http://upload.wikimedia.org");
+                    break;
+                }
+
+                body = document.createElement("md-body");
+
+                toolbar = document.createElement("md-toolbar");
+                toolbar.setAttribute("md-color", "cyan");
+
+                row = document.createElement("md-row");
+                row.setAttribute("md-type", "standard");
+
+                closeButton = document.createElement("md-icon-button");
+                closeButton.setAttribute("md-image", "icon: close");
+                closeButton.addEventListener("click", closeArticle);
+
+                title = document.createElement("md-text");
+                title.textContent = titleText;
+
+                row.appendChild(closeButton);
+                row.appendChild(title);
+
+                toolbar.appendChild(row);
+
+                content = document.createElement("md-content");
+                content.innerHTML = page;
+
+                body.appendChild(toolbar);
+                body.appendChild(content);
+
+                paperkit.initElement(body);
+
+                container.appendChild(body);
+
+                console.log(page);
+            });
+            xhr.send();
+        });
+    }
+
+    function closeArticle() {
+        document.body.classList.remove("read");
+        transition.morphBack();
     }
 })();
