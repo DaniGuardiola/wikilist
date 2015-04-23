@@ -103,11 +103,14 @@ Wikilist.openRandomArticle = function() {
                     }
                     page = pages[prop].revisions[0]["*"];
                     titleText = pages[prop].title;
-                    page = page.replace(/\"\/\/upload\.wikimedia\.org/g, "\"http://upload.wikimedia.org");
+                    page = page
+                        .replace(/\"\/\/upload\.wikimedia\.org/g, "\"http://upload.wikimedia.org")
+                        .replace(/ style="font-size:88%"/g, " md-font-color=\"grey\"");
                     break;
                 }
 
                 body = document.createElement("md-body");
+                body.id = "read-article";
 
                 toolbar = document.createElement("md-toolbar");
                 toolbar.setAttribute("md-color", "cyan");

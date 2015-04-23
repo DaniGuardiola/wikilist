@@ -1,0 +1,45 @@
+/* Cleanup */
+
+#read-article>md-content .mw-editsection {
+    display: none;
+}
+
+#read-article>md-content {
+    padding: 0 16px;
+}
+
+#read-article>md-content>p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+#read-article>md-content a {
+    color: #0097A7;
+    text-decoration: none;
+}
+
+#read-article>md-content .thumb.tright,
+#read-article>md-content .infobox {
+    float: right;
+}
+
+#read-article>md-content .thumb.tleft {
+    float: left;
+}
+
+#read-article>md-content .mw-headline,
+#read-article>md-content #toctitle>h2 {
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 40px;
+    letter-spacing: -.01em;
+}
+
+#read-article>md-content .VT.rellink>span {
+    font-size: 12px;
+    font-weight: 400;
+    white-space: nowrap;
+    line-height: 20px;
+    letter-spacing: .011em;
+}
