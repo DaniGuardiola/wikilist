@@ -6,6 +6,10 @@
     display: none;
 }
 
+#toc-button.hidden {
+    display: none;
+}
+
 md-list>md-tile>md-text {
     text-overflow: ellipsis;
     overflow: hidden;

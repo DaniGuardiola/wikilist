@@ -88,6 +88,14 @@ Wikilist.openRandomArticle = function() {
     });
   }
 
+  function goToArticleIndex(event) {
+    var body = event.currentTarget.parentNode.parentNode.parentNode;
+    var content = body.querySelector("md-content");
+    var toc = content.querySelector("#toc");
+
+    content.scrollTop = toc.offsetTop - 56;
+  }
+
   function saveArticle(articleInfo) {
     var url = "http://" + articleInfo.lang + ".wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&titles=" + articleInfo.slug + "&format=json&rvparse";
     var xhr = new XMLHttpRequest();
@@ -118,16 +126,49 @@ Wikilist.openRandomArticle = function() {
     xhr.send();
   }
 
+  function unsaveArticle(articleInfo) {
+    console.log("asdflkajsdñlfka");
+    chrome.storage.local.get("articles", function(storage) {
+      var modify = {
+        "offline": false,
+        "content": null
+      };
+      var articles = storage.articles ? storage.articles : [];
+      var article = findArticle(articles, articleInfo, modify);
+      var tile = document.querySelector("#article-list md-tile[data-slug=\"" + article.slug + "\"]");
+      tile.setAttribute("data-offline", "false");
+      unsaveArticleDone();
+    });
+  }
+
   function saveArticleDone() {
-    console.log("HOLAAAAAAAAAAp");
+    var button = document.getElementById("save-button");
+    button.setAttribute("md-image", "icon: cloud_done");
+    button.setAttribute("md-fill", "teal-700");
+    button.classList.add("on");
+  }
+
+  function unsaveArticleDone() {
+    var button = document.getElementById("save-button");
+    button.setAttribute("md-image", "icon: cloud_download");
+    button.removeAttribute("md-fill");
   }
 
   function saveArticleFromReader(event) {
-    var body = event.currentTarget.parentNode.parentNode.parentNode;
-    saveArticle({
+    var button = event.currentTarget;
+    var body = button.parentNode.parentNode.parentNode;
+    var articleInfo = {
       "lang": body.getAttribute("data-lang"),
       "slug": body.getAttribute("data-slug")
-    });
+    };
+    if (button.classList.contains("on")) {
+      unsaveArticle(articleInfo);
+      button.classList.remove("on");
+    } else {
+      button.setAttribute("md-fill", "grey-700");
+      saveArticle(articleInfo);
+      button.classList.add("on");
+    }
   }
 
   function readArticleButtonClick(event) {
@@ -143,7 +184,7 @@ Wikilist.openRandomArticle = function() {
     document.body.classList.add("read");
 
     transition.morph(tile, "full", function(container) {
-      var body, toolbar, row, closeButton, title, space, saveButton, openButton, content;
+      var body, toolbar, row, closeButton, title, space, tocButton, saveButton, openButton, content;
 
       body = document.createElement("md-body");
       body.id = "read-article";
@@ -168,8 +209,16 @@ Wikilist.openRandomArticle = function() {
 
       space = document.createElement("md-space");
 
+      tocButton = document.createElement("md-icon-button");
+      tocButton.id = "toc-button";
+      tocButton.classList.add("hidden");
+      tocButton.setAttribute("md-image", "icon: format_list_numbered");
+      tocButton.addEventListener("click", goToArticleIndex);
+
       saveButton = document.createElement("md-icon-button");
-      saveButton.setAttribute("md-image", "icon: download");
+      saveButton.id = "save-button";
+      saveButton.classList.add("hidden");
+      saveButton.setAttribute("md-image", "icon: cloud_download");
       saveButton.addEventListener("click", saveArticleFromReader);
 
       openButton = document.createElement("md-icon-button");
@@ -179,6 +228,7 @@ Wikilist.openRandomArticle = function() {
       row.appendChild(closeButton);
       row.appendChild(title);
       row.appendChild(space);
+      row.appendChild(tocButton);
       row.appendChild(saveButton);
       row.appendChild(openButton);
 
@@ -194,6 +244,10 @@ Wikilist.openRandomArticle = function() {
       container.appendChild(body);
 
       if (offline) {
+        saveButton.classList.add("on");
+        saveButton.classList.remove("hidden");
+        saveButton.setAttribute("md-image", "icon: cloud_done");
+        saveButton.setAttribute("md-fill", "teal-700");
         chrome.storage.local.get("articles", function(storage) {
           var articles = storage.articles ? storage.articles : [];
           var article = findArticle(articles, {
@@ -216,11 +270,11 @@ Wikilist.openRandomArticle = function() {
     });
   }
 
-  function articleLoad(response, content) {
-  	response = response.srcElement.responseText;
-  	if (!content) {
-    	response = JSON.parse(response);
-  	}
+  function articleLoad(response, clean) {
+    response = response.srcElement.responseText;
+    if (!clean) {
+      response = JSON.parse(response);
+    }
     var page;
     var body = document.getElementById("read-article");
     var content = body.querySelector("md-content");
@@ -247,6 +301,10 @@ Wikilist.openRandomArticle = function() {
       .replace(/style="font-size:110%"/g, "md-typo=\"caption\"");
 
     content.innerHTML = page;
+
+    if (content.querySelector("#toc")) {
+      body.querySelector("#toc-button").classList.remove("hidden");
+    }
   }
 
   function closeArticle() {
