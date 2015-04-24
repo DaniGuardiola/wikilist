@@ -301,6 +301,10 @@ Wikilist.openRandomArticle = function() {
       .replace(/style="font-size:110%"/g, "md-typo=\"caption\"");
 
     content.innerHTML = page;
+    var refTitle = content.querySelector(".reflist,.listaref").previousElementSibling;
+    if (refTitle) {
+      refTitle.id = "reference-title";
+    }
 
     if (content.querySelector("#toc")) {
       body.querySelector("#toc-button").classList.remove("hidden");
