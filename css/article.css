@@ -100,6 +100,7 @@
   padding: 0;
   list-style-type: decimal;
   color: #fff;
+  padding-bottom: 16px;
 }
 
 #read-article>md-content .references::after,

@@ -40,20 +40,16 @@ Wikilist.openRandomArticle = function() {
           tile.setAttribute("data-name", articles[i].name);
           tile.setAttribute("data-lang", articles[i].lang);
           tile.setAttribute("data-offline", articles[i].offline || false);
-          tile.addEventListener("click", articleTileClick);
-
-          icon = document.createElement("md-icon");
-          icon.setAttribute("md-image", "icon: wikipedia");
+          tile.addEventListener("click", readArticleClick);
 
           name = document.createElement("md-text");
           name.textContent = articles[i].name;
 
           read = document.createElement("md-icon-button");
-          read.setAttribute("md-image", "icon: fullscreen");
+          read.setAttribute("md-image", "icon: launch");
           read.classList.add("hidden");
-          read.addEventListener("click", readArticleButtonClick);
+          read.addEventListener("click", articleTileClick);
 
-          tile.appendChild(icon);
           tile.appendChild(name);
           tile.appendChild(read);
 
@@ -66,7 +62,7 @@ Wikilist.openRandomArticle = function() {
 
   function articleTileClick(event) {
     event.stopPropagation();
-    var tile = event.currentTarget;
+    var tile = event.currentTarget.parentNode;
     openArticle({
       "lang": tile.getAttribute("data-lang"),
       "slug": tile.getAttribute("data-slug")
@@ -143,14 +139,14 @@ Wikilist.openRandomArticle = function() {
 
   function saveArticleDone() {
     var button = document.getElementById("save-button");
-    button.setAttribute("md-image", "icon: cloud_done");
+    button.setAttribute("md-image", "icon: pin");
     button.setAttribute("md-fill", "teal-700");
     button.classList.add("on");
   }
 
   function unsaveArticleDone() {
     var button = document.getElementById("save-button");
-    button.setAttribute("md-image", "icon: cloud_download");
+    button.setAttribute("md-image", "icon: pin-off");
     button.removeAttribute("md-fill");
   }
 
@@ -171,10 +167,9 @@ Wikilist.openRandomArticle = function() {
     }
   }
 
-  function readArticleButtonClick(event) {
+  function readArticleClick(event) {
     event.stopPropagation();
-    var button = event.currentTarget;
-    var tile = button.parentNode;
+    var tile = event.currentTarget;
     var slug = tile.getAttribute("data-slug");
     var lang = tile.getAttribute("data-lang");
     var name = tile.getAttribute("data-name");
@@ -218,7 +213,7 @@ Wikilist.openRandomArticle = function() {
       saveButton = document.createElement("md-icon-button");
       saveButton.id = "save-button";
       saveButton.classList.add("hidden");
-      saveButton.setAttribute("md-image", "icon: cloud_download");
+      saveButton.setAttribute("md-image", "icon: pin-off");
       saveButton.addEventListener("click", saveArticleFromReader);
 
       openButton = document.createElement("md-icon-button");
@@ -246,7 +241,7 @@ Wikilist.openRandomArticle = function() {
       if (offline) {
         saveButton.classList.add("on");
         saveButton.classList.remove("hidden");
-        saveButton.setAttribute("md-image", "icon: cloud_done");
+        saveButton.setAttribute("md-image", "icon: pin");
         saveButton.setAttribute("md-fill", "teal-700");
         chrome.storage.local.get("articles", function(storage) {
           var articles = storage.articles ? storage.articles : [];
