@@ -293,12 +293,24 @@ Wikilist.openRandomArticle = function() {
       .replace(/\"\/\/upload\.wikimedia\.org/g, "\"http://upload.wikimedia.org")
       .replace(/style="font-size:88%"/g, "md-font-color=\"grey\"")
       .replace(/ style="-moz-column-count:2; -webkit-column-count:2; column-count:2; list-style-type: decimal;"/g, "")
-      .replace(/style="font-size:110%"/g, "md-typo=\"caption\"");
+      .replace(/style="font-size:110%"/g, "md-typo=\"caption\"")
+      .replace(/style="padding:0.1em;background:#e6e6ff;font-weight:normal;"/g, "class=\"NavHead\"")
+      //.replace(/text-align:center/g, "")
+      .replace(/background:lightgray;/g, "");
 
     content.innerHTML = page;
     var refTitle = content.querySelector(".reflist,.listaref").previousElementSibling;
     if (refTitle) {
       refTitle.id = "reference-title";
+    }
+    var i;
+    var verticalNavbox = document.querySelectorAll(".vertical-navbox");
+    for (i = verticalNavbox.length - 1; i >= 0; i--) {
+      verticalNavbox[i].removeAttribute("style");
+    }
+    var navhead = document.querySelectorAll(".NavHead");
+    for (i = navhead.length - 1; i >= 0; i--) {
+      navhead[i].removeAttribute("style");
     }
 
     if (content.querySelector("#toc")) {
