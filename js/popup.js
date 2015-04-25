@@ -295,22 +295,19 @@ Wikilist.openRandomArticle = function() {
       .replace(/ style="-moz-column-count:2; -webkit-column-count:2; column-count:2; list-style-type: decimal;"/g, "")
       .replace(/style="font-size:110%"/g, "md-typo=\"caption\"")
       .replace(/style="padding:0.1em;background:#e6e6ff;font-weight:normal;"/g, "class=\"NavHead\"")
-      //.replace(/text-align:center/g, "")
       .replace(/background:lightgray;/g, "");
 
     content.innerHTML = page;
-    var refTitle = content.querySelector(".reflist,.listaref").previousElementSibling;
+    var refList = content.querySelector(".reflist,.listaref");
+    refList.removeAttribute("style");
+    var refTitle = refList.previousElementSibling;
     if (refTitle) {
       refTitle.id = "reference-title";
     }
     var i;
-    var verticalNavbox = document.querySelectorAll(".vertical-navbox");
-    for (i = verticalNavbox.length - 1; i >= 0; i--) {
-      verticalNavbox[i].removeAttribute("style");
-    }
-    var navhead = document.querySelectorAll(".NavHead");
-    for (i = navhead.length - 1; i >= 0; i--) {
-      navhead[i].removeAttribute("style");
+    var removeStyleElements = document.querySelectorAll(".vertical-navbox,.NavHead,.infobox");
+    for (i = removeStyleElements.length - 1; i >= 0; i--) {
+      removeStyleElements[i].removeAttribute("style");
     }
 
     if (content.querySelector("#toc")) {
