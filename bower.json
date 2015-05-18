@@ -14,5 +14,8 @@
   ],
   "devDependencies": {
     "paperkit-min": "~0.1.0"
+  },
+  "dependencies": {
+    "waves": "~0.7.1"
   }
 }

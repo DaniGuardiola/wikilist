@@ -1,5 +1,9 @@
 /* Cleanup */
 
+#read-article>md-content a {
+  cursor: pointer;
+}
+
 #read-article>md-content .mw-editsection,
 #read-article>md-content .noprint,
 #read-article>md-content .metadata,
@@ -22,18 +26,12 @@
   color: #fff;
 }
 
-#read-article>md-content .reflist,
-#read-article>md-content .listaref {
-  position: relative;
-}
-
 #read-article>md-content img {
   background-color: #fff;
 }
 
 #read-article>md-content #toc::before,
-#read-article>md-content .reflist::before,
-#read-article>md-content .listaref::before {
+#read-article>md-content .references::before {
   content: "";
   display: block;
   height: 100%;
@@ -72,6 +70,10 @@
   left: 50%;
   z-index: -1;
   transform: translate(-50%, 0);
+}
+
+#read-article>md-content ul {
+  padding: 0 0px 0px 24px;
 }
 
 #read-article>md-content #toctitle>h2 {
@@ -132,13 +134,13 @@
 
 #read-article>md-content .references {
   padding: 0;
+  position: relative;
   list-style-type: decimal;
   color: #fff;
   padding-bottom: 16px;
 }
 
-#read-article>md-content .references::after,
-#read-article>md-content .listaref::after {
+#read-article>md-content .references::after {
   content: "";
   display: block;
   height: 84px;
@@ -185,12 +187,6 @@
 #read-article>md-content .references>li>.reference-text {
   color: #000;
   font-weight: normal;
-}
-
-#read-article>md-content .infobox,
-#read-article>md-content .navbox {
-  margin: 16px 0;
-  width: 100%;
 }
 
 #read-article>md-content {
@@ -243,6 +239,7 @@
   float: right;
 }
 
+#read-article>md-content .infobox,
 #read-article>md-content .navbox,
 #read-article>md-content .vertical-navbox {
   clear: both;
@@ -252,6 +249,17 @@
   margin: 32px 0 64px 0;
   transition: box-shadow 0.25s;
   text-align: center;
+}
+
+#read-article>md-content .infobox,
+#read-article>md-content .navbox {
+  margin: 16px 0;
+  clear: both;
+  width: 100%;
+}
+
+#read-article>md-content .infobox {
+  margin: 32px 0;
 }
 
 #read-article>md-content .navbox dd,
@@ -289,14 +297,15 @@
   letter-spacing: -.01em;
 }
 
-#read-article>md-content #reference-title {
+#read-article>md-content .reference-title {
   color: #fff;
 }
 
 #read-article>md-content .navbox dd,
 #read-article>md-content .vertical-navbox dd,
 #read-article>md-content .infobox dd,
-#read-article>md-content .NavHead {
+#read-article>md-content .NavHead,
+#read-article>md-content .navbox .navbox-group {
   text-align: center;
   background: #0097A7;
   padding: 8px;
@@ -306,13 +315,15 @@
 #read-article>md-content .navbox dd a,
 #read-article>md-content .vertical-navbox dd a,
 #read-article>md-content .infobox dd a,
-#read-article>md-content .NavHead a {
+#read-article>md-content .NavHead a,
+#read-article>md-content .navbox .navbox-group a {
   color: #B2EBF2;
 }
 
 #read-article>md-content h3,
 #read-article>md-content .references>li,
 #read-article>md-content .NavHead,
+#read-article>md-content .navbox .navbox-group,
 #read-article>md-content .NavHead li,
 #read-article>md-content #toc a>* {
   font-size: 24px;
@@ -340,4 +351,26 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
+}
+
+#read-article>md-content .infobox {
+  margin: 32px 0;
+}
+
+#read-article>md-content .navbox .navbox-list ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#read-article>md-content .navbox .navbox-list ul>li {
+  flex-shrink: 0;
+  padding-left: 8px;
+}
+
+#read-article>md-content .navbox .navbox-list ul>li::before {
+  content: "·";
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 20px;
+  margin-right: 8px;
 }

@@ -2,30 +2,34 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Wikilist</title>
-    <link rel="stylesheet" href="bower_components/paperkit-min/paperkit.css">
-    <link rel="stylesheet" href="css/popup.css">
-    <link rel="stylesheet" href="css/article.css">
-    <script src="bower_components/paperkit-min/paperkit.js"></script>
-    <script src="js/popup.js"></script>
+  <meta charset="UTF-8">
+  <title>Wikilist</title>
+  <link rel="stylesheet" href="bower_components/paperkit-min/paperkit.css">
+  <link rel="stylesheet" href="css/popup.css">
+  <link rel="stylesheet" href="css/article.css">
+
+  <link rel="stylesheet" type="text/css" href="bower_components/waves/dist/waves.min.css" />
 </head>
 
 <body md-body>
-    <md-toolbar md-color="cyan" md-shadow="shadow-1">
-        <md-row md-type="standard">
-            <md-icon-button md-action="custom: paperkit.sidemenu.open" md-image="icon: menu"></md-icon-button>
-            <md-text>All articles</md-text>
-            <md-space></md-space>
-            <md-icon-button md-action="custom: Wikilist.openRandomArticle" md-image="icon: dice"></md-icon-button>
-            <md-icon-button md-image="icon: heart"></md-icon-button>
-        </md-row>
-    </md-toolbar>
-    <md-content>
-    	<md-list id="article-list">
-    	</md-list>
-    </md-content>
-    <md-sidemenu></md-sidemenu>
+  <md-toolbar md-color="cyan" md-shadow="shadow-1">
+    <md-row md-type="standard">
+      <md-icon-button md-action="custom: paperkit.sidemenu.open" md-image="icon: menu"></md-icon-button>
+      <md-text>All articles</md-text>
+      <md-space></md-space>
+      <md-icon-button md-action="custom: Wikilist.openRandomArticle" md-image="icon: dice"></md-icon-button>
+      <md-icon-button md-image="icon: heart"></md-icon-button>
+    </md-row>
+  </md-toolbar>
+  <md-content>
+    <md-list id="article-list">
+    </md-list>
+  </md-content>
+  <md-sidemenu></md-sidemenu>
+
+  <script src="bower_components/paperkit-min/paperkit.js"></script>
+  <script src="js/popup.js"></script>
+  <script type="text/javascript" src="bower_components/waves/dist/waves.min.js"></script>
 </body>
 
 </html>

@@ -1,60 +1,447 @@
 #wikilist-button {
-    height: 56px;
-    width: 56px;
-    position: fixed;
-    bottom: 96px;
-    right: 96px;
-    border-radius: 50%;
-    border: none;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    opacity: 0.5;
-    transition: box-shadow 0.35s, opacity 0.25s, background-color 0.25s, bottom 0.5s;
-    outline: none;
-    cursor: pointer;
+  height: 56px;
+  width: 56px;
+  position: fixed;
+  bottom: 96px;
+  right: 96px;
+  border-radius: 50%;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  opacity: 0.5;
+  transition: box-shadow 0.35s, opacity 0.25s, background-color 0.25s, bottom 0.5s;
+  outline: none;
+  cursor: pointer;
 }
 
 #wikilist-button>svg {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    height: 24px;
-    width: 24px;
-    transform: translate(-50%, -50%);
-    fill: #fff;
-    opacity: 1;
-    transition: opacity 0.5s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 24px;
+  width: 24px;
+  transform: translate(-50%, -50%);
+  fill: #fff;
+  opacity: 1;
+  transition: opacity 0.5s;
 }
 
 #wikilist-button:hover {
-    opacity: 1;
+  opacity: 1;
 }
 
 #wikilist-button:active {
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 /* State changing */
 
 #wikilist-button.state-changing>svg {
-    opacity: 0;
+  opacity: 0;
 }
 /* States */
 
 #wikilist-button[data-state=initial] {
-    background-color: #00BCD4;
+  background-color: #00BCD4;
 }
 
 #wikilist-button[data-state=done] {
-    background-color: #4CAF50;
-    opacity: 1;
+  background-color: #4CAF50;
+  opacity: 1;
 }
+
 #wikilist-button[data-state=fail] {
-    background-color: #9E9E9E;
-    opacity: 1;
+  background-color: #9E9E9E;
+  opacity: 1;
 }
 /* Classes */
 
 #wikilist-button.hidden {
-	z-index: 2147483647;
-    bottom: -56px;
-    opacity: 1;
+  z-index: 2147483647;
+  bottom: -56px;
+  opacity: 1;
+}
+/* Wikipedia styling experiment */
+/* Setup page */
+/*
+body {
+  overflow-x: hidden;
+}
+
+#content {
+  padding: 0;
+  margin: 16px;
+}
+/* Cleanup 
+
+#content .mw-editsection,
+#content .noprint,
+#content .metadata,
+#content .mw-cite-backlink,
+#content .reference-accessdate,
+#content #coordinates,
+#content .navbox-title>.plainlinks.hlist.navbar.mini,
+#content .plainlinks.hlist.navbar.mini,
+#content .navbox-abovebelow,
+/*body>*:not(#content):not(#wikilist-button)
+
+{
+  display: none;
+}
+
+#content #toc {
+  top: 16px;
+  position: relative;
+  clear: both;
+  padding: 8px 0;
+  color: #fff;
+}
+
+#content .reflist,
+#content .listaref {
+  position: relative;
+}
+
+#content img {
+  background-color: #fff;
+}
+
+#content #toc::before,
+#content .reflist::before,
+#content .listaref::before {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 200%;
+  background-color: #0097A7;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  transform: translate(-50%, -50%);
+}
+
+#content .navbox::before,
+#content .vertical-navbox::before {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 200%;
+  background-color: #0097A7;
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  z-index: -1;
+  transform: translate(-50%, 0);
+}
+
+#content .navbox::after,
+#content .vertical-navbox::after {
+  content: "";
+  display: block;
+  height: 64px;
+  width: 200%;
+  background-color: #0097A7;
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  z-index: -1;
+  transform: translate(-50%, 0);
+}
+
+#content #toctitle>h2 {
+  padding-bottom: 16px;
+  line-height: 0 !important;
+}
+
+#content #toc ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+#content #toc a>* {
+  color: #fff;
+}
+
+#content #toc li.toclevel-2 {
+  padding-left: 32px;
+}
+
+#content #toc li.toclevel-3 {
+  padding-left: 64px;
+}
+
+#content #toc li.toclevel-4 {
+  padding-left: 96px;
+}
+
+#content #toc li.toclevel-5 {
+  padding-left: 128px;
+}
+
+#content #toc a>.tocnumber {
+  font-weight: 300;
+  padding-right: 16px;
+}
+
+#content>h2 {
+  clear: both;
+}
+
+#content span {
+  white-space: initial;
+}
+
+#read-article>md-toolbar .lang {
+  color: #B2EBF2;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+#read-article>md-toolbar>md-row>md-text {
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#content .references {
+  padding: 0;
+  list-style-type: decimal;
+  color: #fff;
+  padding-bottom: 16px;
+}
+
+#content .references::after,
+#content .listaref::after {
+  content: "";
+  display: block;
+  height: 84px;
+  width: 200%;
+  background-color: #0097A7;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  z-index: -1;
+  transform: translate(-50%, 0);
+}
+
+#content .references>li {
+  background-color: #fff;
+  width: 479px;
+  font-weight: 500;
+  margin: 16px 0;
+  margin-left: 68px;
+  padding: 2px 8px 8px 8px;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+  will-change: box-shadow;
+  transition: box-shadow 0.25s;
+}
+
+#content .thumb:hover,
+#content .references>li:hover,
+#content .navbox:hover,
+#content .vertical-navbox:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+}
+
+#content .references>li:before {
+  content: ".";
+  color: #0097A7;
+  float: left;
+  font-size: 20px;
+  font-weight: bold;
+  position: absolute;
+  left: 49px;
+  line-height: 34px;
+}
+
+#content .references>li>.reference-text {
+  color: #000;
+  font-weight: normal;
+}
+
+#content {
+  padding: 0 16px 8px 16px;
+}
+
+#content>p,
+#content h4 {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+#content h4 {
+  font-weight: 500;
+}
+
+#content a {
+  color: #0097A7;
+  text-decoration: none;
+}
+
+#content .thumb {
+  background-color: #0097A7;
+  color: #fff;
+  will-change: box-shadow;
+  transition: box-shadow 0.25s;
+}
+
+#content .thumb a {
+  color: #B2EBF2;
+}
+
+#content .thumb,
+#content .navbox,
+#content .vertical-navbox,
+#content .infobox {
+  padding: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+  border-radius: 2px;
+}
+
+#content .navbox {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+}
+
+#content .thumb.tright {
+  margin: 16px 0 8px 8px;
+  clear: both;
+  float: right;
+}
+
+#content .infobox,
+#content .navbox,
+#content .vertical-navbox {
+  clear: both;
+  width: 100%;
+  background: #fff;
+  position: relative;
+  margin: 32px 0 64px 0;
+  transition: box-shadow 0.25s;
+  text-align: center;
+}
+
+#content .infobox,
+#content .navbox {
+  margin: 16px 0;
+  clear: both;
+  width: 100%;
+}
+
+#content .infobox {
+  margin: 32px 0;
+}
+
+#content .navbox dd,
+#content .vertical-navbox dd,
+#content .infobox dd {
+  margin: 0;
+}
+
+#content .navbox ul,
+#content .vertical-navbox ul {
+  padding: 0;
+}
+
+#content .navbox li,
+#content .vertical-navbox li {
+  list-style-type: none;
+}
+
+#content .thumb.tleft,
+#content .infobox {
+  margin: 16px 8px 8px 0;
+  clear: both;
+  float: left;
+}
+
+#content .infobox {
+  text-align: center;
+  width: 100%;
+}
+
+#content h2 {
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 40px;
+  letter-spacing: -.01em;
+}
+
+#content #reference-title {
+  color: #fff;
+}
+
+#content .navbox dd,
+#content .vertical-navbox dd,
+#content .infobox dd,
+#content .NavHead,
+#content .navbox .navbox-group {
+  text-align: center;
+  background: #0097A7;
+  padding: 8px;
+  color: #fff;
+}
+
+#content .navbox dd a,
+#content .vertical-navbox dd a,
+#content .infobox dd a,
+#content .NavHead a,
+#content .navbox .navbox-group a {
+  color: #B2EBF2;
+}
+
+#content h3,
+#content .references>li,
+#content .NavHead,
+#content .navbox .navbox-group,
+#content .NavHead li,
+#content #toc a>* {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+  letter-spacing: -.012em;
+}
+
+#content .VT.rellink>span,
+#content .hatnote,
+#content .thumbcaption {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: .011em;
+}
+
+#content .VT.rellink>span,
+#content .hatnote {
+  color: #9E9E9E;
+}
+
+#content li,
+#content .references>li>.reference-text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+#content .infobox {
+  margin: 32px 0;
+}
+
+#content .navbox .navbox-list ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#content .navbox .navbox-list ul>li {
+  flex-shrink: 0;
+  padding-left: 8px;
+}
+
+#content .navbox .navbox-list ul>li::before {
+  content: "·";
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 20px;
+  margin-right: 8px;
 }

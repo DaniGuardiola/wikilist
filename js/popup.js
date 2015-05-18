@@ -13,14 +13,28 @@ Wikilist.openRandomArticle = function() {
     init();
   });
 
+  function addWaves() {
+    var buttons = document.querySelectorAll("md-icon-button,md-tile");
+    console.log(buttons);
+    for (var i = buttons.length - 1; i >= 0; i--) {
+      if (buttons[i] && !buttons[i].matches("md-tile>*")) {
+        Waves.attach(buttons[i], ".button" ["waves-circle"]);
+      }
+    }
+    Waves.init();
+  }
+
   function init() {
     var articleList = document.getElementById("article-list");
-    var tile, icon, name, read;
+    var tile, icon, name, read, remove;
+
+    addWaves();
 
     chrome.storage.local.get("articles", function(storage) {
       var articles = storage.articles ? storage.articles : [];
       if (articles.length < 1) {
         tile = document.createElement("md-tile");
+        tile.style.display = "flex";
         tile.addEventListener("click", Wikilist.openRandomArticle);
 
         icon = document.createElement("md-icon");
@@ -36,6 +50,7 @@ Wikilist.openRandomArticle = function() {
       } else {
         for (var i = articles.length - 1; i >= 0; i--) {
           tile = document.createElement("md-tile");
+          tile.style.display = "flex";
           tile.setAttribute("data-slug", articles[i].slug);
           tile.setAttribute("data-name", articles[i].name);
           tile.setAttribute("data-lang", articles[i].lang);
@@ -45,18 +60,46 @@ Wikilist.openRandomArticle = function() {
           name = document.createElement("md-text");
           name.textContent = articles[i].name;
 
+          remove = document.createElement("md-icon-button");
+          remove.setAttribute("md-image", "icon: bookmark-remove");
+          remove.classList.add("hidden");
+          remove.addEventListener("click", removeArticleClick);
+
           read = document.createElement("md-icon-button");
           read.setAttribute("md-image", "icon: launch");
           read.classList.add("hidden");
           read.addEventListener("click", articleTileClick);
 
           tile.appendChild(name);
+          tile.appendChild(remove);
           tile.appendChild(read);
 
           articleList.appendChild(tile);
         }
       }
       paperkit.init();
+      addWaves();
+    });
+  }
+
+  function removeArticleClick(event) {
+    event.stopPropagation();
+    var button = event.currentTarget;
+    var tile = button.parentNode;
+    tile.parentNode.removeChild(tile);
+    removeArticle({
+      "slug": tile.getAttribute("data-slug"),
+      "lang": tile.getAttribute("data-lang")
+    });
+  }
+
+  function removeArticle(articleInfo) {
+    chrome.storage.local.get("articles", function(storage) {
+      var articles = storage.articles ? storage.articles : [];
+      findArticle(articles, articleInfo, function(articles, i) {
+        articles.splice(i, 1);
+        return articles;
+      });
     });
   }
 
@@ -139,14 +182,12 @@ Wikilist.openRandomArticle = function() {
 
   function saveArticleDone() {
     var button = document.getElementById("save-button");
-    button.setAttribute("md-image", "icon: pin");
-    button.setAttribute("md-fill", "teal-700");
+    button.setAttribute("md-fill", "cyan-900");
     button.classList.add("on");
   }
 
   function unsaveArticleDone() {
     var button = document.getElementById("save-button");
-    button.setAttribute("md-image", "icon: pin-off");
     button.removeAttribute("md-fill");
   }
 
@@ -161,7 +202,7 @@ Wikilist.openRandomArticle = function() {
       unsaveArticle(articleInfo);
       button.classList.remove("on");
     } else {
-      button.setAttribute("md-fill", "grey-700");
+      button.setAttribute("md-fill", "grey-400");
       saveArticle(articleInfo);
       button.classList.add("on");
     }
@@ -213,7 +254,7 @@ Wikilist.openRandomArticle = function() {
       saveButton = document.createElement("md-icon-button");
       saveButton.id = "save-button";
       saveButton.classList.add("hidden");
-      saveButton.setAttribute("md-image", "icon: pin-off");
+      saveButton.setAttribute("md-image", "icon: pin");
       saveButton.addEventListener("click", saveArticleFromReader);
 
       openButton = document.createElement("md-icon-button");
@@ -237,12 +278,12 @@ Wikilist.openRandomArticle = function() {
       paperkit.initElement(body);
 
       container.appendChild(body);
+      addWaves();
 
       if (offline) {
         saveButton.classList.add("on");
         saveButton.classList.remove("hidden");
-        saveButton.setAttribute("md-image", "icon: pin");
-        saveButton.setAttribute("md-fill", "teal-700");
+        saveButton.setAttribute("md-fill", "cyan-900");
         chrome.storage.local.get("articles", function(storage) {
           var articles = storage.articles ? storage.articles : [];
           var article = findArticle(articles, {
@@ -275,6 +316,9 @@ Wikilist.openRandomArticle = function() {
     var content = body.querySelector("md-content");
     var toolbar = body.querySelector("md-toolbar");
 
+    var lang = body.getAttribute("data-lang");
+    var slug = body.getAttribute("data-slug");
+
     if (response.query) {
       var pages = response.query.pages;
       for (var prop in pages) {
@@ -282,7 +326,7 @@ Wikilist.openRandomArticle = function() {
           break;
         }
         page = pages[prop].revisions[0]["*"];
-        toolbar.querySelector("md-row>md-text").innerHTML = "<span class=\"lang\">" + body.getAttribute("data-lang") + "</span> " + pages[prop].title;
+        toolbar.querySelector("md-row>md-text").innerHTML = "<span class=\"lang\">" + lang + "</span> " + pages[prop].title;
         break;
       }
     } else {
@@ -298,14 +342,66 @@ Wikilist.openRandomArticle = function() {
       .replace(/background:lightgray;/g, "");
 
     content.innerHTML = page;
-    var refList = content.querySelector(".reflist,.listaref");
-    refList.removeAttribute("style");
-    var refTitle = refList.previousElementSibling;
-    if (refTitle) {
-      refTitle.id = "reference-title";
+
+    var i, liElement, refTitle, refList = content.querySelectorAll(".reflist,.listaref");
+    var links = content.querySelectorAll("a");
+    for (i = links.length - 1; i >= 0; i--) {
+      var thisSlug = links[i].getAttribute("href").split("/")[2];
+      links[i].setAttribute("data-slug", thisSlug);
+      links[i].removeAttribute("href");
+
+      links[i].addEventListener("click", function(e) {
+        e.preventDefault();
+        var link = e.currentTarget;
+        var slug = link.getAttribute("data-slug");
+        var saveButton = document.getElementById("save-button");
+
+        saveButton.setAttribute("md-fill", "grey-400");
+        /*if (offline) {
+          saveButton.setAttribute("md-fill", "cyan-900");
+          chrome.storage.local.get("articles", function(storage) {
+            var articles = storage.articles ? storage.articles : [];
+            var article = findArticle(articles, {
+              "lang": lang,
+              "slug": slug
+            });
+            articleLoad({
+              "srcElement": {
+                "responseText": article.content
+              }
+            }, true);
+          });
+        }*/
+
+        var url = "http://" + lang + ".wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&titles=" + encodeURIComponent(slug) + "&format=json&rvparse";
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        xhr.addEventListener("load", articleLoad);
+        xhr.send();
+      });
     }
-    var i;
-    var removeStyleElements = document.querySelectorAll(".vertical-navbox,.NavHead,.infobox");
+
+    for (i = refList.length - 1; i >= 0; i--) {
+      refTitle = refList[i].previousElementSibling;
+      liElement = refList[i].querySelector("ol.references");
+      if (refTitle && liElement) {
+        refTitle.classList.add("reference-title");
+      }
+    }
+
+    var refOl = document.querySelectorAll(".references");
+    for (i = refOl.length - 1; i >= 0; i--) {
+      if (refOl[i].parentNode.tagName.toLowerCase()) {
+        refTitle = refOl[i].previousElementSibling;
+        if (refTitle) {
+          refTitle.classList.add("reference-title");
+        }
+      }
+    }
+
+    var removeStyleElements = document.querySelectorAll(".vertical-navbox,.NavHead,.infobox,.reflist,.listaref");
     for (i = removeStyleElements.length - 1; i >= 0; i--) {
       removeStyleElements[i].removeAttribute("style");
     }
@@ -313,6 +409,7 @@ Wikilist.openRandomArticle = function() {
     if (content.querySelector("#toc")) {
       body.querySelector("#toc-button").classList.remove("hidden");
     }
+    addWaves();
   }
 
   function closeArticle() {
@@ -322,7 +419,7 @@ Wikilist.openRandomArticle = function() {
 
 
 
-  function findArticle(articles, articleInfo, modify) {
+  function findArticle(articles, articleInfo, callback) {
     var required = 2;
     var article = false;
     for (var i = articles.length - 1; i >= 0; i--) {
@@ -333,14 +430,16 @@ Wikilist.openRandomArticle = function() {
         required = required - 1;
       }
       if (required <= 0) {
-        if (modify) {
-          for (var prop in modify) {
-            articles[i][prop] = modify[prop];
+        if (callback && typeof callback === "object") {
+          for (var prop in callback) {
+            articles[i][prop] = callback[prop];
           }
-          chrome.storage.local.set({
-            "articles": articles
-          });
+        } else if (callback && typeof callback === "function") {
+          articles = callback(articles, i);
         }
+        chrome.storage.local.set({
+          "articles": articles
+        });
         article = articles[i];
         break;
       }
